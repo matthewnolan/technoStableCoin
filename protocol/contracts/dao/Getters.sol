@@ -32,11 +32,11 @@ contract Getters is State {
      */
 
     function name() public view returns (string memory) {
-        return "Empty Set Dollar Stake";
+        return "Dynamic Set Dollar Stake";
     }
 
     function symbol() public view returns (string memory) {
-        return "ESDS";
+        return "DSDS";
     }
 
     function decimals() public view returns (uint8) {
@@ -126,6 +126,14 @@ contract Getters is State {
         return epoch() >= _state.accounts[account].fluidUntil ? Account.Status.Frozen : Account.Status.Fluid;
     }
 
+    function fluidUntil(address account) public view returns (uint256) {
+        return _state.accounts[account].fluidUntil;
+    }
+
+    function lockedUntil(address account) public view returns (uint256) {
+        return _state.accounts[account].lockedUntil;
+    }
+
     function allowanceCoupons(address owner, address spender) public view returns (uint256) {
         return _state.accounts[owner].couponAllowances[spender];
     }
@@ -139,12 +147,9 @@ contract Getters is State {
     }
 
     function epochTime() public view returns (uint256) {
-        Constants.EpochStrategy memory current = Constants.getCurrentEpochStrategy();
-        Constants.EpochStrategy memory previous = Constants.getPreviousEpochStrategy();
+        Constants.EpochStrategy memory current = Constants.getEpochStrategy();
 
-        return blockTimestamp() < current.start ?
-            epochTimeWithStrategy(previous) :
-            epochTimeWithStrategy(current);
+        return epochTimeWithStrategy(current);
     }
 
     function epochTimeWithStrategy(Constants.EpochStrategy memory strategy) private view returns (uint256) {
