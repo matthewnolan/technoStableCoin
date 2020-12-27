@@ -27,7 +27,7 @@ import "./IDollar.sol";
 contract Dollar is IDollar, MinterRole, ERC20Detailed, Permittable, ERC20Burnable  {
 
     constructor()
-    ERC20Detailed("Dynamic Set Dollar", "DSD", 18)
+    ERC20Detailed("Techno Stable Coin", "TSD", 18)
     Permittable()
     public
     { }
